@@ -97,7 +97,7 @@ function renderGrid() {
   gridEl.innerHTML = items.map(item => `
     <article class="instrument-card ${item.id === activeInstrumentId ? 'active' : ''}" style="--instrument-gradient:${item.gradient}" data-id="${item.id}">
       <div class="instrument-image-wrap">
-        <img class="instrument-image" src="${assetPath(item.image) || `static/photos/${item.id}.jpg`}" alt="${item.name}真实照片" loading="lazy" />
+        <img class="instrument-image" src="${assetPath(item.image) || `static/photos/${item.id}.jpg`}" alt="${item.name}真实照片" />
       </div>
       <div class="instrument-top">
         <div><p class="eyebrow">${item.pinyin}</p><h3>${item.name}</h3></div>
