@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#b9362d" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="国乐无双" />
+  <title>国乐无双 · 中国传统乐器 APP</title>
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/static/icons/icon-192.svg" />
+  <link rel="stylesheet" href="/static/styles.css?v=7" />
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+  <header class="nav">
+    <a class="brand" href="#top" aria-label="国乐无双首页">
+      <span class="brand-mark">樂</span>
+      <span><b>国乐无双</b><small>Guoyue Wushuang</small></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#recognize">听音识器</a>
+      <a href="#atlas">乐器图鉴</a>
+      <a href="#structure">结构工坊</a>
+      <a href="#install">安装</a>
+    </nav>
+    <button id="installTop" class="ghost-button">安装 APP</button>
+  </header>
+
+  <main id="top">
+    <section class="hero section-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">AI 识别 · 民乐图鉴 · 可安装 PWA</p>
+        <h1>把中国传统乐器，装进一部专业 APP。</h1>
+        <p class="hero-lead">国乐无双融合智能听音识器、真实乐器照片图鉴、结构拆解、流派传承与移动端安装体验，打造更丰富的传统乐器知识库。</p>
+        <div class="hero-actions">
+          <a class="primary-button" href="#recognize">立即识别音频</a>
+          <a class="secondary-button" href="#atlas">探索乐器</a>
+        </div>
+      </div>
+      <div class="hero-card" aria-label="乐器声纹卡片">
+        <div class="sound-orbit"><span></span><span></span><span></span></div>
+        <div class="hero-instrument">古琴 · 琵琶 · 中阮 · 箜篌 · 笙 · 埙</div>
+        <div class="wave-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <p>上传 3 秒左右录音，智能识别模型会分析声纹并判断乐器类别；图鉴则以真实照片呈现器物质感。</p>
+      </div>
+    </section>
+
+    <section class="stats" id="stats"></section>
+
+    <section id="recognize" class="panel recognize-panel">
+      <div class="section-heading">
+        <p class="eyebrow">Listen & Identify</p>
+        <h2>听音识器</h2>
+        <p>支持 wav、mp3、m4a、flac 等格式。首次识别会加载本地智能模型，可能需要稍等。</p>
+      </div>
+      <form id="recognizeForm" class="recognize-form">
+        <label class="upload-zone" for="audioInput">
+          <input id="audioInput" name="audio" type="file" accept="audio/*" />
+          <span class="upload-icon">♪</span>
+          <strong>拖入或选择一段传统乐器录音</strong>
+          <small id="fileName">建议 3–10 秒，环境噪声越低越准确</small>
+        </label>
+        <div class="form-row">
+          <select id="modelSelect" name="model" aria-label="选择识别模型"><option value="">加载模型列表中…</option></select>
+          <button class="primary-button" type="submit">开始识别</button>
+        </div>
+      </form>
+      <div id="recognitionResult" class="result-card hidden" aria-live="polite"></div>
+    </section>
+
+    <section id="atlas" class="atlas-section">
+      <div class="section-heading">
+        <p class="eyebrow">Instrument Atlas</p>
+        <h2>百器图鉴</h2>
+        <p>借鉴大师级“多乐器、多门类”的策展思路，从音色、历史、结构、技法与传承五个维度理解国乐。</p>
+      </div>
+      <div class="atlas-tools">
+        <label class="search-box">
+          <span>搜索乐器</span>
+          <input id="instrumentSearch" type="search" placeholder="输入古琴、ruan、吹管…" autocomplete="off" />
+        </label>
+        <div id="categoryFilters" class="category-filters" aria-label="乐器分类筛选"></div>
+      </div>
+      <div id="instrumentGrid" class="instrument-grid"></div>
+      <p id="emptyState" class="empty-state hidden">没有找到匹配的乐器，换个关键词试试。</p>
+    </section>
+
+    <section id="structure" class="panel structure-section">
+      <div class="section-heading">
+        <p class="eyebrow">AR Inspired Workshop</p>
+        <h2>结构工坊</h2>
+        <p>以沉浸式拆解体验，用交互式层级展示乐器组成。</p>
+      </div>
+      <div class="workshop">
+        <div id="partStack" class="part-stack"></div>
+        <div class="workshop-copy">
+          <h3 id="activeInstrumentName">古筝结构</h3>
+          <p id="activeInstrumentStory"></p>
+          <div id="techniqueChips" class="chips"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="install" class="install-section section-grid">
+      <div>
+        <p class="eyebrow">Installable App</p>
+        <h2>安装到手机或桌面</h2>
+        <p>国乐无双支持 PWA：Chrome/Edge 可直接点击安装；iOS Safari 可通过“分享 → 添加到主屏幕”安装。</p>
+      </div>
+      <div class="install-card">
+        <button id="installMain" class="primary-button">安装国乐无双</button>
+        <ol>
+          <li>本地启动服务后打开页面</li>
+          <li>允许浏览器保存离线核心资源</li>
+          <li>添加到桌面，像原生 APP 一样使用</li>
+        </ol>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <span>国乐无双 · 滔哥开发</span>
+    <span>为传统乐器教育、识别与传播而设计 · 作者：滔哥</span>
+  </footer>
+
+  <script src="/static/app.js?v=7" type="module"></script>
+</body>
+</html>
