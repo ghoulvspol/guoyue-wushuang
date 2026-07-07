@@ -1,0 +1,16 @@
+{
+  "name": "国乐无双",
+  "short_name": "国乐无双",
+  "description": "中国传统乐器识别、图鉴、结构与传承学习 APP",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#150d08",
+  "theme_color": "#b9362d",
+  "icons": [
+    {"src": "static/icons/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any maskable"},
+    {"src": "static/icons/icon-512.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any maskable"}
+  ],
+  "categories": ["education", "music", "culture"]
+}
