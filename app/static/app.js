@@ -1,6 +1,5 @@
 let deferredInstallPrompt = null;
 let instruments = [];
-let attributions = [];
 let activeInstrumentId = 'guzheng';
 let activeCategory = '全部';
 let searchTerm = '';
@@ -40,9 +39,24 @@ function installApp() {
 qs('#installTop').addEventListener('click', installApp);
 qs('#installMain').addEventListener('click', installApp);
 
+function assetPath(path) {
+  if (!path) return '';
+  return path.replace(/^\/static\//, 'static/');
+}
+
+async function fetchJson(url) {
+  const response = await fetch(url, { cache: 'no-store' });
+  if (!response.ok) throw new Error(`${url} returned ${response.status}`);
+  return response.json();
+}
+
 async function loadInstruments() {
-  const response = await fetch('/api/instruments', { cache: 'no-store' });
-  const data = await response.json();
+  let data;
+  try {
+    data = await fetchJson('api/instruments');
+  } catch (error) {
+    data = await fetchJson('static/data/instruments.json');
+  }
   instruments = data.items;
   statsEl.innerHTML = data.stats.map(item => `<div class="stat"><strong>${item.value}</strong><span>${item.label}</span></div>`).join('');
   activeInstrumentId = instruments[0]?.id || activeInstrumentId;
@@ -83,7 +97,7 @@ function renderGrid() {
   gridEl.innerHTML = items.map(item => `
     <article class="instrument-card ${item.id === activeInstrumentId ? 'active' : ''}" style="--instrument-gradient:${item.gradient}" data-id="${item.id}">
       <div class="instrument-image-wrap">
-        <img class="instrument-image" src="${item.image || `/static/photos/${item.id}.jpg`}" alt="${item.name}真实照片" loading="lazy" />
+        <img class="instrument-image" src="${assetPath(item.image) || `static/photos/${item.id}.jpg`}" alt="${item.name}真实照片" loading="lazy" />
       </div>
       <div class="instrument-top">
         <div><p class="eyebrow">${item.pinyin}</p><h3>${item.name}</h3></div>
@@ -111,7 +125,7 @@ function renderWorkshop(id) {
   activeNameEl.textContent = `${item.name}结构`;
   activeStoryEl.textContent = item.story;
   partStackEl.innerHTML = `
-    <img class="workshop-image" src="${item.image || `/static/photos/${item.id}.jpg`}" alt="${item.name}结构照片" />
+    <img class="workshop-image" src="${assetPath(item.image) || `static/photos/${item.id}.jpg`}" alt="${item.name}结构照片" />
     ${item.parts.map((part, index) => `<div class="part-card" style="--i:${index}"><b>${String(index + 1).padStart(2, '0')}</b> · ${part}</div>`).join('')}
   `;
   techniqueChipsEl.innerHTML = [...item.techniques, ...item.heritage].map(text => `<span>${text}</span>`).join('');
@@ -145,7 +159,7 @@ qs('#recognizeForm').addEventListener('submit', async event => {
   submitButton.disabled = true;
   submitButton.textContent = '识别中…';
   try {
-    const response = await fetch('/api/recognize', { method: 'POST', body: formData });
+    const response = await fetch('api/recognize', { method: 'POST', body: formData });
     const data = await response.json();
     if (!response.ok) throw new Error(data.detail || '识别失败');
     resultEl.className = `result-card ${data.ok ? '' : 'error'}`;
@@ -159,7 +173,7 @@ qs('#recognizeForm').addEventListener('submit', async event => {
 });
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/service-worker.js').catch(console.warn);
+  navigator.serviceWorker.register('service-worker.js').catch(console.warn);
 }
 
 loadInstruments();
@@ -167,12 +181,10 @@ loadModels();
 
 async function loadModels() {
   try {
-    const response = await fetch('/api/models', { cache: 'no-store' });
-    if (!response.ok) throw new Error((await response.json()).detail || '模型加载失败');
-    const data = await response.json();
+    const data = await fetchJson('api/models');
     modelSelect.innerHTML = data.models.map((model, index) => `<option value="${model}" ${index === 0 ? 'selected' : ''}>${model}</option>`).join('');
   } catch (error) {
-    modelSelect.innerHTML = '<option value="">使用默认模型</option>';
+    modelSelect.innerHTML = '<option value="">静态展示版：识别需本地启动</option>';
     console.warn(error);
   }
 }

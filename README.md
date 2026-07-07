@@ -7,9 +7,12 @@
 
 ![国乐无双截图](screenshots/atlas-v6.png)
 
-## 在线仓库
+## 在线访问
 
-- GitHub：<https://github.com/ghoulvspol/guoyue-wushuang>
+- GitHub Pages：<https://ghoulvspol.github.io/guoyue-wushuang/>
+- GitHub 仓库：<https://github.com/ghoulvspol/guoyue-wushuang>
+
+> GitHub Pages 是静态展示版，支持百器图鉴、真实照片、搜索筛选和 PWA 安装；音频识别需要按下方步骤本地启动后端。
 
 ## 功能亮点
 
@@ -18,7 +21,7 @@
 - **真实照片展示**：本地缓存开放授权乐器照片，提升器物质感和学习体验。
 - **分类与搜索**：支持按门类筛选，也支持输入中文、拼音或技法关键词搜索。
 - **结构工坊**：以照片 + 层叠部件卡片展示乐器结构、技法与传承流派。
-- **可安装 PWA**：内置 `manifest.webmanifest` 和 `service-worker.js`，支持浏览器安装到桌面或手机主屏幕。
+- **可安装 PWA**：内置 `manifest.webmanifest` 和 `service-worker.js`，支持 GitHub Pages 静态部署，也支持浏览器安装到桌面或手机主屏幕。
 - **本地优先部署**：无需数据库，启动后即可访问；识别模型目录可通过环境变量配置。
 
 ## 乐器清单
@@ -197,6 +200,10 @@ data/image_attributions.json
 页面不展示来源区块，但项目保留授权记录以便审计。
 
 ## 部署建议
+
+### GitHub Pages
+
+项目已配置 `.github/workflows/pages.yml`，推送到 `main` 后会自动将 `app/static` 打包为静态站点并部署到 GitHub Pages。静态站点会使用 `app/static/data/instruments.json` 作为图鉴数据源。
 
 ### 本地长期运行
 
